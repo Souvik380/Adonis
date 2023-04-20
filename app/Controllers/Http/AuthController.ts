@@ -32,7 +32,6 @@ export default class AuthController {
         try{
             const token=await auth.attempt(email,pass)
             return token.toJSON()
-            return "User logged in!"
         }catch(err){
             return "Invalid credentials!"
         }

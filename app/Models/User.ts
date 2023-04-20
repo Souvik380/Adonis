@@ -6,7 +6,7 @@ import Profile from './Profile'
 export default class User extends BaseModel {
   
   @hasOne(() => Profile, {
-    foreignKey: 'profileUserId', // defaults to userId
+    foreignKey: 'UserId', // defaults to userId
   })
   public profile: HasOne<typeof Profile>
 
