@@ -8,11 +8,10 @@ Route.get('/', async () => {
 Route.group(()=>{
 
   Route.group(()=>{
-    // Route.get("/user/profile","ProfileController.view")
     Route.get("/user/profile","ProfileController.showProfile")
     Route.post("/user/profile","ProfileController.create")
     Route.put("/user/profile","ProfileController.update")
-    Route.delete("/user/profile","ProfileController.delete")
+    Route.delete("/user/profile/:mobile","ProfileController.delete")
   }).middleware('auth')
 
 

@@ -6,11 +6,6 @@ import {DateTime} from "luxon"
 
 export default class ProfileController {
 
-    public async view(){
-        const profiles=await Profile.all()
-        return profiles
-    }
-
     public async showProfile({auth}){
         
         try{
@@ -58,17 +53,18 @@ export default class ProfileController {
         }
     }
 
-    public async delete({auth}){
-        const profile=await Profile.findBy("user_id",auth.user.$attributes.id)
-        const user=await User.findBy("id",auth.user.$attributes.id)
+    public async delete({params}){
         
+        const profile=await Profile.findBy("mobile",params.mobile)
+        const user=await User.findBy("id",profile?.userId)
+
         if(profile){
             profile.delete()
             user?.delete()
             return "Profile and User deleted!"
         }
         
-        return "Invalid mobile"
+        return "Wrong mobile number given"
     }
 
 }
