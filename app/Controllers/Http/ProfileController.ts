@@ -4,6 +4,7 @@ import User from "App/Models/User"
 import UserProfileValidator from "App/Validators/UserProfileValidator"
 
 export default class ProfileController {
+
     public async showProfile({auth,response}){
         try{
             const profile=await Profile.findBy("user_id",auth.user.id)
@@ -42,18 +43,19 @@ export default class ProfileController {
         }
     }
 
-    public async delete({params,response}){
+    public async delete({auth,params,response}){
         
-        const profile=await Profile.findBy("mobile",params.mobile)
-        const user=await User.findBy("id",profile?.userId)
+        const profile=await Profile.findBy("user_id",auth.user.id)
 
-        if(profile){
-            await profile.delete()
+        if(profile?.mobile===params.mobile){
+            const user=await User.findBy("id",profile?.userId)
+
+            await profile?.delete()
             await user?.delete()
             return response.send({ message: "Profile and User deleted!" });
         }
-        
-        return response.send({ message: "Wrong mobile number!" });
+
+        return response.send({message:"Wrong mobile given !"})
     }
 
 }
