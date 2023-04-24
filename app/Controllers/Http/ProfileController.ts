@@ -57,8 +57,8 @@ export default class ProfileController {
         const user=await User.findBy("id",profile?.userId)
 
         if(profile){
-            profile.delete()
-            user?.delete()
+            await profile.delete()
+            await user?.delete()
             return "Profile and User deleted!"
         }
         
