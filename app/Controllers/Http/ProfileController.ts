@@ -15,6 +15,7 @@ export default class ProfileController {
             details.dob=profile.dob
 
             return details
+            
         }catch(err){
             return response.send({ message: "Invalid User_id given!" });
         }
@@ -25,8 +26,8 @@ export default class ProfileController {
             const payload=await request.validate(UserProfileValidator)
             payload.user_id=auth.user.id
 
-            const profile=await Profile.create(payload)
-            return {"Profile created":profile}
+            return Profile.create(payload)
+            
 
         }catch(err){
             return response.send({ message: "Profile creation failed!" });
