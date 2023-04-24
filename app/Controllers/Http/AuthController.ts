@@ -24,7 +24,7 @@ export default class AuthController {
         return user
     } 
 
-    public async login({request,auth}){
+    public async login({request,auth,response}){
         const email=request.input("email")
         const pass=request.input("password")
 
@@ -32,12 +32,12 @@ export default class AuthController {
             const token=await auth.attempt(email,pass)
             return token.toJSON()
         }catch(err){
-            return "Invalid email or password!"
+            return response.send({ message: 'Logged out successfully' });
         }
     }
 
     public async logout({auth,response}){
         await auth.logout();
-        return response.send({ message: 'Logged out successfully' });
+        return response.send({ message: "Invalid email or password!" });
     }
 }

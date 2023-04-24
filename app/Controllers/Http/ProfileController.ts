@@ -4,7 +4,7 @@ import User from "App/Models/User"
 import UserProfileValidator from "App/Validators/UserProfileValidator"
 
 export default class ProfileController {
-    public async showProfile({auth}){
+    public async showProfile({auth,response}){
         try{
             const profile=await Profile.findBy("user_id",auth.user.id)
             const details={}
@@ -22,7 +22,7 @@ export default class ProfileController {
 
             return details
         }catch(err){
-            return "Invalid User_id given!"
+            return response.send({ message: "Invalid User_id given!" });
         }
     }
 
@@ -35,7 +35,7 @@ export default class ProfileController {
             return {"Profile created":profile}
 
         }catch(err){
-            response.badRequest(err.messages)
+            return response.send({ message: "Profile creation failed!" });
         }
     }
 
@@ -47,11 +47,11 @@ export default class ProfileController {
             return {"Updated User":user}
 
         }catch(err){
-            response.badRequest(err.messages)
+            return response.send({ message: "Profile updation failed!" });
         }
     }
 
-    public async delete({params}){
+    public async delete({params,response}){
         
         const profile=await Profile.findBy("mobile",params.mobile)
         const user=await User.findBy("id",profile?.userId)
@@ -59,12 +59,10 @@ export default class ProfileController {
         if(profile){
             await profile.delete()
             await user?.delete()
-            return "Profile and User deleted!"
+            return response.send({ message: "Profile and User deleted!" });
         }
         
-        return "Wrong mobile number given"
+        return response.send({ message: "Wrong mobile number!" });
     }
-
-
 
 }
