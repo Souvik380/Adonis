@@ -27,8 +27,6 @@ export default class ProfileController {
             payload.user_id=auth.user.id
 
             return Profile.create(payload)
-            
-
         }catch(err){
             return response.send({ message: "Profile creation failed!" });
         }
@@ -38,9 +36,7 @@ export default class ProfileController {
         try{
             const payload=await request.validate(UserProfileValidator)
             await Profile.query().where("user_id", auth.user.id).update(payload);
-            const user=await Profile.findBy("user_id",auth.user.id)
-            return {"Updated User":user}
-
+            return Profile.findBy("user_id",auth.user.id)
         }catch(err){
             return response.send({ message: "Profile updation failed!" });
         }
