@@ -12,6 +12,7 @@ Route.group(()=>{
     Route.post("/user/profile","ProfileController.create")
     Route.put("/user/profile","ProfileController.update")
     Route.delete("/user/profile/:mobile","ProfileController.delete")
+    Route.post("/logout","AuthController.logout")
   }).middleware('auth')
 
 

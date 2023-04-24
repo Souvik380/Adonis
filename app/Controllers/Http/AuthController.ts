@@ -35,4 +35,9 @@ export default class AuthController {
             return "Invalid email or password!"
         }
     }
+
+    public async logout({auth,response}){
+        await auth.logout();
+        return response.send({ message: 'Logged out successfully' });
+    }
 }
