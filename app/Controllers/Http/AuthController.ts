@@ -22,8 +22,7 @@ export default class AuthController {
         const user=await User.create(data)
 
         return user
-        // User.create()
-    }
+    } 
 
     public async login({request,auth}){
         const email=request.input("email")
@@ -33,7 +32,7 @@ export default class AuthController {
             const token=await auth.attempt(email,pass)
             return token.toJSON()
         }catch(err){
-            return "Invalid credentials!"
+            return "Invalid email or password!"
         }
     }
 }

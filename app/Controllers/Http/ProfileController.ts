@@ -14,25 +14,23 @@ export default class ProfileController {
     public async showProfile({auth}){
         
         try{
-            const profile=await Profile.findBy("user_id",auth.user.$attributes.id)
+            const profile=await Profile.findBy("user_id",auth.user.id)
             const details={}
 
-            const dob=profile.$attributes.dob.c.year+"-"+profile.$attributes.dob.c.month+"-"+profile.$attributes.dob.c.day
+            const dob=profile.dob.year+"-"+profile.dob.month+"-"+profile.dob.day
             const date = new Date(dob);
-            
-            const year = date.getFullYear();
-            const month = date.toLocaleString('default', { month: 'short' });
-            const day = date.getDate();
-            const formattedDate = `${year} ${month} ${day}`;
 
-            details.name=profile.$attributes.name
-            details.email=auth.user.$attributes.email
-            details.gender=profile.$attributes.gender
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            const formattedDate = date.toLocaleDateString('en-US', options);
+
+            details.name=profile.name
+            details.email=auth.user.email
+            details.gender=profile.gender
             details.dob=formattedDate
 
             return details
         }catch(err){
-            return "Some error!"
+            return "Invalid User_id given!"
         }
     }
 
