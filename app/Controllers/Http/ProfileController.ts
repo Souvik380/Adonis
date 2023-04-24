@@ -9,16 +9,10 @@ export default class ProfileController {
             const profile=await Profile.findBy("user_id",auth.user.id)
             const details={}
 
-            const dob=profile.dob.year+"-"+profile.dob.month+"-"+profile.dob.day
-            const date = new Date(dob);
-
-            const options = { year: 'numeric', month: 'short', day: 'numeric' };
-            const formattedDate = date.toLocaleDateString('en-US', options);
-
             details.name=profile.name
             details.email=auth.user.email
             details.gender=profile.gender
-            details.dob=formattedDate
+            details.dob=profile.dob
 
             return details
         }catch(err){
