@@ -2,12 +2,9 @@
 import Profile from "App/Models/Profile"
 import User from "App/Models/User"
 import UserProfileValidator from "App/Validators/UserProfileValidator"
-import {DateTime} from "luxon"
 
 export default class ProfileController {
-
     public async showProfile({auth}){
-        
         try{
             const profile=await Profile.findBy("user_id",auth.user.id)
             const details={}
@@ -32,7 +29,7 @@ export default class ProfileController {
     public async create({request,response,auth}){
         try{
             const payload=await request.validate(UserProfileValidator)
-            payload.user_id=auth.user.$attributes.id
+            payload.user_id=auth.user.id
 
             const profile=await Profile.create(payload)
             return {"Profile created":profile}
@@ -45,8 +42,9 @@ export default class ProfileController {
     public async update({auth,request,response}){
         try{
             const payload=await request.validate(UserProfileValidator)
-            await Profile.query().where("user_id", auth.user.$attributes.id).update(payload);
-            return "User Updated!"
+            await Profile.query().where("user_id", auth.user.id).update(payload);
+            const user=await Profile.findBy("user_id",auth.user.id)
+            return {"Updated User":user}
 
         }catch(err){
             response.badRequest(err.messages)
