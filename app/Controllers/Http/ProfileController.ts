@@ -10,7 +10,6 @@ export default class ProfileController {
             const profile=await Profile.findBy("user_id",auth.user.id).select(['name', 'email', 'gender', 'dob'])
             return profile
         }catch(err){
-            return response.send({message:err})
             return response.send({ message: "Invalid User_id given!" });
         }
     }
